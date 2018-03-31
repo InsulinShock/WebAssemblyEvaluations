@@ -7,30 +7,31 @@
 #include <iostream>
 #include <string>
 
-
-std::vector<std::string> *vectorFromIntPointer(uintptr_t vec)
+extern "C" {
+void my_function(uint8_t *buf)
 {
-    return reinterpret_cast<std::vector<std::string> *>(vec);
+    std::cout << buf << std::endl;
 };
-
-EMSCRIPTEN_BINDINGS(Wrappers)
-{
-    emscripten::register_vector<std::string>("VectorString").constructor(&vectorFromIntPointer, emscripten::allow_raw_pointers());
-};
-
+}
 
 int main()
 {
+    emscripten::val document = emscripten::val::global("document");
+    emscripten::val canvas = document.call<emscripten::val>("getElementById", emscripten::val("canvas"));
+    emscripten::val context = canvas.call<emscripten::val>("getContext", emscripten::val("2d"));
 
-    std::vector<std::string> myVector;
-    myVector.push_back("First item");
-    myVector.push_back("Second item");
+    uint8_t myVector[] = {255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255};
 
-    EM_ASM_ARGS({
-        var myVector = new Module.VectorString($0);
-        // Prints "Second item"
-        console.log(myVector.get(1));
-    }, &myVector);
+    EM_ASM_({
+
+        let myTypedArray = new Uint8ClampedArray(16);
+
+        var buf = Module._malloc(myTypedArray.length * myTypedArray.BYTES_PER_ELEMENT);
+        Module.HEAPU8.set(myTypedArray, buf);
+        //Module.ccall('my_function', 'number', ['number'], [buf]);
+        Module._free(buf);
+
+    });
 
     return 0;
 }
