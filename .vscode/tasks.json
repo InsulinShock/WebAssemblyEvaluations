@@ -20,14 +20,21 @@
             }
         },
         {
-            "label": "RunReadCanvas",
-            "command": "Firefox",
+            "label": "WriteCanvas",
+            "type": "shell",
+            "command": "./WriteCanvas/build.sh",
             "windows": {
-                "command": "C:\\Program Files\\Mozilla Firefox\\firefox.com"
+                "command": ".\\WriteCanvas\\build.bat"
             },
-            "args": [
-                ".\\ReadCanvas\\index.html"
-            ]
-        }
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        
     ]
 }
