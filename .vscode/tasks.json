@@ -35,6 +35,19 @@
                 "panel": "new"
             }
         },
+        {
+            "label": "Run WriteCanvas",
+            "type": "shell",
+            "command": "./WriteCanvas/run.sh",
+            "windows": {
+                "command": ".\\WriteCanvas\\run.bat"
+            },
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
         
     ]
 }
