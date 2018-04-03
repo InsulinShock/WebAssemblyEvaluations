@@ -47,9 +47,7 @@ int main()
     std::cout << "Ptr = " << std::to_string(reinterpret_cast<uintptr_t>(myvector.data())) << std::endl;
 
     copyFromVector( myvector, data);
-
-
-    image["data"].call<void>("set", data);
+   
 
     context.call<void>("putImageData", image, emscripten::val(0), emscripten::val(0));
 
