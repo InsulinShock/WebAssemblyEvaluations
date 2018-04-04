@@ -52,13 +52,16 @@
             }
         },
         {
-            "label": "Run WriteCanvas",
+            "label": "Camera",
             "type": "shell",
-            "command": "./WriteCanvas/run.sh",
+            "command": "./Camera/build.sh",
             "windows": {
-                "command": ".\\WriteCanvas\\run.bat"
+                "command": ".\\Camera\\build.bat"
             },
-            "group": "none",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
