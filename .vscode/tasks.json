@@ -36,6 +36,22 @@
             }
         },
         {
+            "label": "PromisesAndCallBacks",
+            "type": "shell",
+            "command": "./PromisesAndCallBacks/build.sh",
+            "windows": {
+                "command": ".\\PromisesAndCallBacks\\build.bat"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
             "label": "Run WriteCanvas",
             "type": "shell",
             "command": "./WriteCanvas/run.sh",
