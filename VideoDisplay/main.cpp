@@ -29,10 +29,11 @@ int main()
 
     uint8_t img[9] = {255,0,0,0,0,0,0,0,0};
 
-    Canvas2dDisplay canvas = Canvas2dDisplay(3, 3);
+    Canvas2dDisplay canvas = Canvas2dDisplay("canvas", 3, 3, 1);
 
 
-    //canvas.putImageRowMajor(img);
+    canvas.putImageRowMajor(img);
+    
 
     //Canvas2dDisplay *pCanvas = NULL;
     //pCanvas = &canvas;   

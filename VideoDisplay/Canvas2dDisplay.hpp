@@ -1,13 +1,9 @@
 #ifndef WEBASSEMBLY_BROWSER_CANVAS2DDISPLAY_H_
 #define WEBASSEMBLY_BROWSER_CANVAS2DDISPLAY_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include <vector>
 #include <iostream>
-//#include <string>
+#include <string>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -19,25 +15,24 @@ class Canvas2dDisplay
 {
 
 private:
-  std::vector<uint8_t> interleavedImageVector;
-  emscripten::val typedArray;
-  emscripten::val imageData;
-  emscripten::val canvasElement;
-  unsigned int depth;
-
-  void writeImageToCanvas(void);
-
+  std::string htmlId_;
+  const unsigned int width_;
+  const unsigned int height_;
+  const unsigned int depth_;
+  std::vector<uint8_t> interleavedImageVector_; 
+  
 public:
-  Canvas2dDisplay(unsigned int width, unsigned int height);
+  Canvas2dDisplay(const std::string htmlId, const unsigned int width, const unsigned int height, const unsigned int depth);
+
 
   void putImageRowMajor(uint8_t planarImageVector[]);
 
   void putImageColumnMajor(uint8_t planarImageVector[]);
+
+  void writeImageToCanvas(void);
+  
+
 };
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // WEBASSEMBLY_BROWSER_CANVAS2DDISPLAY_H_
