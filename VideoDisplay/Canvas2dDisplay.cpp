@@ -1,14 +1,26 @@
 #include "Canvas2dDisplay.hpp"
 
+using namespace emscripten;
+
 Canvas2dDisplay::Canvas2dDisplay(
     std::string htmlId, 
     const unsigned int width, 
     const unsigned int height, 
-    const unsigned int depth) : htmlId_(htmlId), width_(width), height_(height), depth_(depth)
+    const unsigned int depth) : 
+    htmlId_(htmlId), width_(width), height_(height), depth_(depth),
+    imageData_(val::global("ImageData").new_(val(width),val(height))),
+    canvasElement_(val::global("document").call<val>("getElementById",val(htmlId))),
+    typedArray_(val::global("Uint8ClampedArray").new_(val(0)))
 {    
     interleavedImageVector_ = std::vector<uint8_t>(width_ * height_ * 4 * sizeof(uint8_t));
 
     uintptr_t ptr = reinterpret_cast<uintptr_t>(this->interleavedImageVector_.data());
+
+    this->typedArray_ = val::global("HEAPU8").call<emscripten::val>(
+        "subarray",
+         emscripten::val(ptr), 
+         emscripten::val(ptr + this->width_ * this->height_ * 4)
+         );
     
 };
 
@@ -43,7 +55,14 @@ void Canvas2dDisplay::putImageRowMajor(uint8_t planarImageVector[])
         break;
     }
 
+
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     this->writeImageToCanvas();
+    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time_span1 = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+
+    std::cout << "Write to canvas" << time_span1.count() << std::endl;
+    
 };
 
 void Canvas2dDisplay::putImageColumnMajor(uint8_t planarImageVector[])
@@ -83,37 +102,19 @@ void Canvas2dDisplay::putImageColumnMajor(uint8_t planarImageVector[])
 void Canvas2dDisplay::writeImageToCanvas(void)
 {
 
-    uintptr_t ptr = reinterpret_cast<uintptr_t>(this->interleavedImageVector_.data());
-
-    emscripten::val typedArray = emscripten::val::global("HEAPU8").call<emscripten::val>(
-        "subarray",
-         emscripten::val(ptr), 
-         emscripten::val(ptr + this->width_ * this->height_ * 4)
-         );
-
-    emscripten::val imageData = emscripten::val::global("ImageData").new_(
-        emscripten::val(this->width_), 
-        emscripten::val(this->height_)
-        );
-
-    emscripten::val canvasElement = emscripten::val::global("document").call<emscripten::val>(
-        "getElementById", 
-        emscripten::val(this->htmlId_)
-        );
-
-    emscripten::val context = canvasElement.call<emscripten::val>(
+    emscripten::val context = this->canvasElement_.call<emscripten::val>(
         "getContext", 
         emscripten::val("2d")
         );
 
-    imageData["data"].call<void>(
+    this->imageData_["data"].call<void>(
         "set", 
-        typedArray
+        this->typedArray_
         );
 
     context.call<void>(
         "putImageData", 
-        imageData, 
+        this->imageData_, 
         emscripten::val(0), 
         emscripten::val(0));
 }

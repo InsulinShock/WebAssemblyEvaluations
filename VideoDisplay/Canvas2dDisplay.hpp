@@ -5,6 +5,10 @@
 #include <iostream>
 #include <string>
 
+#include <ctime>
+#include <ratio>
+#include <chrono>
+
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/val.h>
@@ -15,11 +19,18 @@ class Canvas2dDisplay
 {
 
 private:
+
+  // These work
   std::string htmlId_;
   const unsigned int width_;
   const unsigned int height_;
   const unsigned int depth_;
   std::vector<uint8_t> interleavedImageVector_; 
+
+  // Need to try this
+  const emscripten::val imageData_;
+  const emscripten::val canvasElement_;
+  emscripten::val typedArray_;
   
 public:
   Canvas2dDisplay(const std::string htmlId, const unsigned int width, const unsigned int height, const unsigned int depth);
