@@ -35,7 +35,7 @@ void one_iter(void* Canvas)
 
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-    ((Canvas2dDisplay*)Canvas)->putImageRowMajor(img);
+    ((Canvas2dDisplay*)Canvas)->putImageColumnMajor(img);
 
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> time_span1 = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
@@ -55,7 +55,7 @@ int main()
     Canvas2dDisplay *pCanvas = NULL;
     pCanvas = &Canvas;   
     
-    emscripten_set_main_loop_arg(one_iter, pCanvas, 5, 1);
+    emscripten_set_main_loop_arg(one_iter, pCanvas, 30, 1);
 
     return 0;
 }

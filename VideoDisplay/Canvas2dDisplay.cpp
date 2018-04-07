@@ -55,14 +55,7 @@ void Canvas2dDisplay::putImageRowMajor(uint8_t planarImageVector[])
         break;
     }
 
-
-    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     this->writeImageToCanvas();
-    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> time_span1 = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-
-    std::cout << "Write to canvas" << time_span1.count() << std::endl;
-    
 };
 
 void Canvas2dDisplay::putImageColumnMajor(uint8_t planarImageVector[])
@@ -96,7 +89,7 @@ void Canvas2dDisplay::putImageColumnMajor(uint8_t planarImageVector[])
         break;
     }
 
-    // this->writeImageToCanvas();
+    this->writeImageToCanvas();
 }
 
 void Canvas2dDisplay::writeImageToCanvas(void)
