@@ -67,6 +67,38 @@
                 "panel": "new"
             }
         },
+        {
+            "label": "TypedArray",
+            "type": "shell",
+            "command": "./TypedArray/build.sh",
+            "windows": {
+                "command": ".\\TypedArray\\build.bat"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "VideoDisplay",
+            "type": "shell",
+            "command": "./VideoDisplay/build.sh",
+            "windows": {
+                "command": ".\\VideoDisplay\\build.bat"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        }
         
     ]
 }
