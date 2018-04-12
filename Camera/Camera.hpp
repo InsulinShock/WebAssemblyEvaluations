@@ -32,10 +32,18 @@ private:
   // Need to try this
   emscripten::val videoElement_;
   emscripten::val canvasElement_;
+  emscripten::val imageData_;
   
 public:
   Camera(const std::string htmlVideoId, const std::string htmlCanvasId, const unsigned int width, const unsigned int height, const unsigned int depth);
+
+  void getImageRowMajor(uint8_t planarImageVector[]);
+
+  void getImageColumnMajor(uint8_t planarImageVector[]);
+
+  void readImageFromCanvas(void);
  
+  void copyToVector(void);
 
 };
 
